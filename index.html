@@ -641,12 +641,27 @@
 
 <script>
 // ── PRECIOS CACHAPAS ──
+const PRODUCTOS = ["Cachapa Sola", "Cachapa con mantequilla", "Cachapa con mantequilla y queso fino", "Cachapa con mantequilla y queso mediano", "Cachapa con mantequilla y queso grueso", "Cachapa con mantequilla y queso a la plancha", "Queso de mano fino", "Queso de mano mediano", "Queso de mano grueso", "Pollo mechado", "Carne mechada", "Cochino", "Mantequilla", "Tocineta", "Crema de leche (mínimo)", "Crema de leche (máximo)", "Jamón", "Queso Telita", "Queso a la plancha", "Refresco 1.5 litro", "Refresco 2.0 litro", "Refresco de lata 1 litro", "Refresco de 355ml retornable", "Malta desechable", "Malta de lata", "Malta retornable", "Malta Maikin Polar", "Té Taguade 1.5L", "Agua mineral 600ml Nevada", "Jugo Natulac TP cartón", "Jugo Natulac 250ml vidrio", "Jugo Natulac de lata", "Jugo Natulac de 1L cartón", "Jugo Natulac de 1L vidrio"];
+const WA_NUM = '584264014765';
+
 fetch("https://script.google.com/macros/s/AKfycbzK6LOP7NgM-PRE0s4M4AAZNFJzOWzniRkjPI2o53C2PrWISnaepnapxTdMtlenXBwO/exec")
   .then(r => r.json())
   .then(data => {
     document.querySelectorAll('.precio').forEach((el, i) => {
       const v = data[i];
-      if (v) el.textContent = 'Bs ' + Math.round(parseFloat(v)).toLocaleString('es-VE');
+      if (v) {
+        const precio = 'Bs ' + Math.round(parseFloat(v)).toLocaleString('es-VE');
+        const producto = PRODUCTOS[i] || 'Producto';
+        const msg = '🫓 Hola! Quiero pedir:\n\n▪️ Producto: ' + producto + '\n▪️ Precio: ' + precio + '\n\n¿Está disponible? 😊';
+        const link = document.createElement('a');
+        link.href = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(msg);
+        link.target = '_blank';
+        link.style.cssText = 'color:#f5c842;font-family:Playfair Display,serif;font-weight:700;font-size:1rem;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .5rem;border-radius:8px;border:1px solid rgba(245,200,66,0.3);transition:background .2s;';
+        link.innerHTML = precio + ' <svg width="14" height="14" fill="#25d366" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.562 4.14 1.54 5.875L0 24l6.336-1.516A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.789 9.789 0 01-5.001-1.372l-.36-.213-3.732.893.935-3.63-.235-.374A9.775 9.775 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>';
+        link.onmouseover = () => link.style.background = 'rgba(245,200,66,0.1)';
+        link.onmouseout = () => link.style.background = 'transparent';
+        el.parentNode.replaceChild(link, el);
+      }
     });
   })
   .catch(() => {
