@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú de Cachapas | Sabe Rico Express</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #f5c842;
+      --red: #e63946;
+      --dark: #0d0d0d;
+      --card: #161616;
+      --border: rgba(245,200,66,0.15);
+      --text: #f0ece0;
+      --muted: #888;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── FONDO TEXTURA ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(245,200,66,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(230,57,70,0.05) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 2rem 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--gold);
+      letter-spacing: -0.02em;
+    }
+    .logo span { color: var(--text); font-style: normal; font-weight: 700; }
+
+    .header-wa {
+      background: #25d366;
+      color: #fff;
+      text-decoration: none;
+      padding: .55rem 1.2rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .header-wa:hover { transform: scale(1.04); box-shadow: 0 4px 16px rgba(37,211,102,.35); }
+    .header-wa svg { width: 16px; height: 16px; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 3.5rem 2rem 2rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: .35rem 1rem;
+      font-size: .72rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      background: rgba(245,200,66,0.05);
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      line-height: 1.05;
+      font-weight: 900;
+      margin-bottom: .8rem;
+    }
+    .hero h1 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: .95rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .delivery-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(230,57,70,.12);
+      border: 1px solid rgba(230,57,70,.3);
+      color: #ff6b6b;
+      padding: .4rem 1rem;
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 500;
+    }
+
+    /* ── SECCIONES ── */
+    .section {
+      position: relative;
+      z-index: 10;
+      max-width: 860px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .section-title h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+    .section-title .line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-title .icon {
+      font-size: 1.4rem;
+    }
+
+    /* ── TABLA ── */
+    .menu-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 .5rem;
+    }
+
+    .menu-table thead th {
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: .5rem 1.2rem;
+      text-align: left;
+    }
+
+    .menu-table tbody tr {
+      background: var(--card);
+      border-radius: 12px;
+      transition: transform .15s, background .15s;
+    }
+    .menu-table tbody tr:hover { background: #1e1e1e; transform: translateX(4px); }
+
+    .menu-table td {
+      padding: .9rem 1.2rem;
+      font-size: .9rem;
+    }
+    .menu-table td:first-child {
+      border-radius: 12px 0 0 12px;
+      color: var(--text);
+    }
+    .menu-table td:last-child {
+      border-radius: 0 12px 12px 0;
+      text-align: right;
+    }
+
+    .precio {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 1rem;
+    }
+
+    /* ── IMAGEN SECCIÓN ── */
+    .section-img {
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+    }
+
+    /* ── PIZZAS ── */
+    .pizza-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .pizza-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      padding: 1rem;
+      transition: transform .2s, border-color .2s;
+    }
+    .pizza-card:hover { transform: translateY(-2px); border-color: rgba(245,200,66,.35); }
+
+    .pizza-card img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 14px;
+      flex-shrink: 0;
+    }
+
+    .pizza-info { flex: 1; min-width: 0; }
+
+    .pizza-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: .2rem;
+      color: var(--text);
+    }
+
+    .pizza-info p {
+      font-size: .78rem;
+      color: var(--muted);
+      margin-bottom: .6rem;
+      line-height: 1.5;
+    }
+
+    .price-row { display: flex; flex-wrap: wrap; gap: .4rem; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      background: rgba(245,200,66,0.08);
+      border: 1px solid rgba(245,200,66,0.25);
+      color: var(--gold);
+      padding: .35rem .75rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .2s, transform .1s, border-color .2s;
+      cursor: pointer;
+    }
+    .pill:hover {
+      background: #25d366;
+      border-color: #25d366;
+      color: #fff;
+      transform: scale(1.05);
+    }
+    .pill:hover small { color: rgba(255,255,255,.7); }
+    .pill small { color: var(--muted); font-weight: 400; font-size: .7rem; margin-right: .1rem; }
+    .pill svg { width: 13px; height: 13px; opacity: .7; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 3rem 1rem 6rem;
+      color: var(--muted);
+      font-size: .8rem;
+      border-top: 1px solid var(--border);
+      margin-top: 4rem;
+    }
+    footer strong { color: var(--gold); }
+
+    /* ── FLOATING BUTTONS ── */
+    .fab-group {
+      position: fixed;
+      bottom: 28px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: .75rem;
+      z-index: 10000;
+    }
+
+    .fab {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 24px rgba(0,0,0,.45);
+      transition: transform .25s cubic-bezier(.175,.885,.32,1.275), box-shadow .2s;
+      text-decoration: none;
+    }
+    .fab:hover { transform: scale(1.12); }
+
+    .fab-wa { background: #25d366; }
+    .fab-wa svg { width: 28px; height: 28px; }
+
+    .fab-chat {
+      background: var(--gold);
+      font-size: 1.5rem;
+      animation: pulse-gold 2.5s infinite;
+    }
+
+    @keyframes pulse-gold {
+      0%   { box-shadow: 0 0 0 0 rgba(245,200,66,.6); }
+      70%  { box-shadow: 0 0 0 14px rgba(245,200,66,0); }
+      100% { box-shadow: 0 0 0 0 rgba(245,200,66,0); }
+    }
+
+    /* ── CHATBOT ── */
+    #chat-window {
+      position: fixed;
+      bottom: 110px;
+      right: 24px;
+      width: min(370px, 92vw);
+      background: #111;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      overflow: hidden;
+      z-index: 9999;
+      box-shadow: 0 20px 60px rgba(0,0,0,.6);
+      transform: translateY(20px) scale(.95);
+      opacity: 0;
+      pointer-events: none;
+      transition: all .35s cubic-bezier(.175,.885,.32,1.275);
+    }
+    #chat-window.open {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, #1a1a1a, #222);
+      border-bottom: 1px solid var(--border);
+      padding: 1.1rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+    }
+    .chat-avatar {
+      width: 40px;
+      height: 40px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .chat-header-info { flex: 1; }
+    .chat-header-info p { font-size: .85rem; font-weight: 600; color: var(--text); }
+    .chat-header-info small { font-size: .7rem; color: #4ade80; }
+    .chat-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1.3rem;
+      line-height: 1;
+      transition: color .2s;
+    }
+    .chat-close:hover { color: var(--text); }
+
+    #chat-messages {
+      height: 300px;
+      overflow-y: auto;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: .7rem;
+      background: #0d0d0d;
+    }
+    #chat-messages::-webkit-scrollbar { width: 4px; }
+    #chat-messages::-webkit-scrollbar-track { background: transparent; }
+    #chat-messages::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+
+    .msg {
+      max-width: 82%;
+      padding: .7rem 1rem;
+      border-radius: 18px;
+      font-size: .82rem;
+      line-height: 1.5;
+      animation: fadeUp .25s ease;
+    }
+    @keyframes fadeUp { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+    .msg-bot {
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      color: var(--text);
+      border-radius: 18px 18px 18px 4px;
+      align-self: flex-start;
+    }
+    .msg-user {
+      background: var(--gold);
+      color: #000;
+      font-weight: 500;
+      border-radius: 18px 18px 4px 18px;
+      align-self: flex-end;
+    }
+
+    .chat-options {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+      margin-top: .3rem;
+      align-self: flex-start;
+      width: 100%;
+    }
+    .chat-opt-btn {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      color: var(--text);
+      padding: .6rem 1rem;
+      border-radius: 12px;
+      font-size: .78rem;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color .2s, background .2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .chat-opt-btn:hover { border-color: var(--gold); background: rgba(245,200,66,.06); }
+
+    .chat-input-row {
+      display: flex;
+      gap: .5rem;
+      padding: .9rem 1rem;
+      background: #111;
+      border-top: 1px solid #1e1e1e;
+    }
+    #chat-input {
+      flex: 1;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      color: var(--text);
+      padding: .6rem .9rem;
+      border-radius: 12px;
+      font-size: .82rem;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color .2s;
+    }
+    #chat-input:focus { border-color: var(--gold); }
+    #chat-send {
+      background: var(--gold);
+      border: none;
+      color: #000;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform .15s;
+      flex-shrink: 0;
+    }
+    #chat-send:hover { transform: scale(1.08); }
+
+    /* ── LOADING ── */
+    .loading-row td {
+      text-align: center;
+      color: var(--muted);
+      font-size: .85rem;
+      padding: 1.5rem !important;
+    }
+
+    /* ── HINT ── */
+    .hint {
+      text-align: center;
+      color: var(--muted);
+      font-size: .75rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .pizza-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Sabe Rico <span>Express</span></div>
+  <a href="https://wa.me/584264014765" target="_blank" class="header-wa">
+    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.562 4.14 1.54 5.875L0 24l6.336-1.516A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.789 9.789 0 01-5.001-1.372l-.36-.213-3.732.893.935-3.63-.235-.374A9.775 9.775 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+    WhatsApp
+  </a>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">✦ Cocina Artesanal Venezolana ✦</div>
+  <h1>Sabor que<br><em>enamora</em></h1>
+  <p>Cachapas, almuerzos y pizzas artesanales hechas con ingredientes frescos y mucho amor. Pedidos al instante por WhatsApp.</p>
+  <div class="delivery-badge">🛵 Delivery Gratis</div>
+</div>
+
+<!-- SECCIÓN CACHAPAS -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🫓</span>
+    <h2>Cachapas</h2>
+    <div class="line"></div>
+  </div>
+  <img class="section-img" src="https://i.imgur.com/mRu1VGG.jpeg" alt="Cachapas">
+  <table class="menu-table">
+    <thead><tr><th>Descripción</th><th>Precio</th></tr></thead>
+    <tbody>
+      <tr><td>Sola</td><td><span class="precio" data-index="0">···</span></td></tr>
+      <tr><td>Con mantequilla</td><td><span class="precio" data-index="1">···</span></td></tr>
+      <tr><td>Con mantequilla y queso fino</td><td><span class="precio" data-index="2">···</span></td></tr>
+      <tr><td>Con mantequilla y queso mediano</td><td><span class="precio" data-index="3">···</span></td></tr>
+      <tr><td>Con mantequilla y queso grueso</td><td><span class="precio" data-index="4">···</span></td></tr>
+      <tr><td>Con mantequilla y queso a la plancha</td><td><span class="precio" data-index="5">···</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SECCIÓN RACIONES -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🧀</span>
+    <h2>Raciones Adicionales</h2>
+    <div class="line"></div>
+  </div>
+  <img class="section-img" src="https://i.imgur.com/kHprkPo.jpeg" alt="Raciones">
+  <table class="menu-table">
+    <thead><tr><th>Descripción</th><th>Precio</th></tr></thead>
+    <tbody>
+      <tr><td>Queso de mano fino</td><td><span class="precio" data-index="6">···</span></td></tr>
+      <tr><td>Queso de mano mediano</td><td><span class="precio" data-index="7">···</span></td></tr>
+      <tr><td>Queso de mano grueso</td><td><span class="precio" data-index="8">···</span></td></tr>
+      <tr><td>Pollo mechado</td><td><span class="precio" data-index="9">···</span></td></tr>
+      <tr><td>Carne mechada</td><td><span class="precio" data-index="10">···</span></td></tr>
+      <tr><td>Cochino</td><td><span class="precio" data-index="11">···</span></td></tr>
+      <tr><td>Mantequilla</td><td><span class="precio" data-index="12">···</span></td></tr>
+      <tr><td>Tocineta</td><td><span class="precio" data-index="13">···</span></td></tr>
+      <tr><td>Crema de leche (mínimo)</td><td><span class="precio" data-index="14">···</span></td></tr>
+      <tr><td>Crema de leche (máximo)</td><td><span class="precio" data-index="15">···</span></td></tr>
+      <tr><td>Jamón</td><td><span class="precio" data-index="16">···</span></td></tr>
+      <tr><td>Queso Telita</td><td><span class="precio" data-index="17">···</span></td></tr>
+      <tr><td>Queso a la plancha</td><td><span class="precio" data-index="18">···</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SECCIÓN BEBIDAS -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🥤</span>
+    <h2>Bebidas</h2>
+    <div class="line"></div>
+  </div>
+  <table class="menu-table">
+    <thead><tr><th>Descripción</th><th>Precio</th></tr></thead>
+    <tbody>
+      <tr><td>Refresco 1.5 litro</td><td><span class="precio" data-index="19">···</span></td></tr>
+      <tr><td>Refresco 2.0 litro</td><td><span class="precio" data-index="20">···</span></td></tr>
+      <tr><td>Refresco de lata 1 litro</td><td><span class="precio" data-index="21">···</span></td></tr>
+      <tr><td>Refresco de 355ml retornable</td><td><span class="precio" data-index="22">···</span></td></tr>
+      <tr><td>Malta desechable</td><td><span class="precio" data-index="23">···</span></td></tr>
+      <tr><td>Malta de lata</td><td><span class="precio" data-index="24">···</span></td></tr>
+      <tr><td>Malta retornable</td><td><span class="precio" data-index="25">···</span></td></tr>
+      <tr><td>Malta Maikin Polar</td><td><span class="precio" data-index="26">···</span></td></tr>
+      <tr><td>Té Taguade 1.5L</td><td><span class="precio" data-index="27">···</span></td></tr>
+      <tr><td>Agua mineral 600ml Nevada</td><td><span class="precio" data-index="28">···</span></td></tr>
+      <tr><td>Jugo Natulac TP cartón</td><td><span class="precio" data-index="29">···</span></td></tr>
+      <tr><td>Jugo Natulac 250ml vidrio</td><td><span class="precio" data-index="30">···</span></td></tr>
+      <tr><td>Jugo Natulac de lata</td><td><span class="precio" data-index="31">···</span></td></tr>
+      <tr><td>Jugo Natulac de 1L cartón</td><td><span class="precio" data-index="32">···</span></td></tr>
+      <tr><td>Jugo Natulac de 1L vidrio</td><td><span class="precio" data-index="33">···</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  <strong>Sabe Rico Express</strong> · Delivery Gratis · <a href="https://wa.me/584264014765" style="color:var(--gold)">+58 426 401 4765</a><br>
+  <span style="font-size:.7rem;margin-top:.4rem;display:block">Precios actualizados automáticamente desde nuestra lista de precios</span>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<div class="fab-group">
+  <a href="https://wa.me/584264014765?text=Hola!%20Quiero%20hacer%20un%20pedido%20😊" target="_blank" class="fab fab-wa" title="WhatsApp">
+    <svg fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.562 4.14 1.54 5.875L0 24l6.336-1.516A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.789 9.789 0 01-5.001-1.372l-.36-.213-3.732.893.935-3.63-.235-.374A9.775 9.775 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+  </a>
+  <button class="fab fab-chat" onclick="toggleChat()" title="Asistente" style="padding:0;overflow:hidden;border:3px solid var(--gold);background:transparent;"><img src="https://i.imgur.com/FwSvlok.jpeg" alt="Asistente" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></button>
+</div>
+
+<!-- CHATBOT -->
+<div id="chat-window">
+  <div class="chat-header">
+    <div class="chat-avatar" style="padding:0;overflow:hidden;"><img src="https://i.imgur.com/FwSvlok.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="Asistente"></div>
+    <div class="chat-header-info">
+      <p>Asistente Sabe Rico</p>
+      <small>● En línea ahora</small>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div id="chat-messages"></div>
+  <div class="chat-input-row">
+    <input type="text" id="chat-input" placeholder="Escribe aquí..." autocomplete="off">
+    <button id="chat-send" onclick="sendMsg()">➤</button>
+  </div>
+</div>
+
+<script>
+// ── PRECIOS CACHAPAS ──
+fetch("https://script.google.com/macros/s/AKfycbxogztBYkgerNWGcPlNryposKITTqDbB9RRoCHOMehYMbwFm3tN4KoLBcM2_y0eoAMX/exec")
+  .then(r => r.json())
+  .then(data => {
+    document.querySelectorAll('.precio').forEach((el, i) => {
+      const v = data[i];
+      if (v) el.textContent = 'Bs ' + Math.round(parseFloat(v)).toLocaleString('es-VE');
+    });
+  })
+  .catch(() => {
+    document.querySelectorAll('.precio').forEach(el => el.textContent = 'N/D');
+  });
+
+// ── CHATBOT ──
+let chatStep = 0;
+let chatData = {};
+
+function toggleChat() {
+  const w = document.getElementById('chat-window');
+  w.classList.toggle('open');
+  if (w.classList.contains('open') && chatStep === 0) {
+    chatStep = 1;
+    setTimeout(() => addMsg('bot', '¡Hola! 👋 Bienvenido a <b>Sabe Rico Express</b>. ¿Cómo te llamas?'), 300);
+  }
+}
+
+function addMsg(type, html, opts) {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg msg-' + type;
+  div.innerHTML = html;
+  msgs.appendChild(div);
+  if (opts) {
+    const optDiv = document.createElement('div');
+    optDiv.className = 'chat-options';
+    opts.forEach(o => {
+      const btn = document.createElement('button');
+      btn.className = 'chat-opt-btn';
+      btn.textContent = o.label;
+      btn.onclick = () => { optDiv.remove(); o.action(); };
+      optDiv.appendChild(btn);
+    });
+    msgs.appendChild(optDiv);
+  }
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function sendMsg() {
+  const input = document.getElementById('chat-input');
+  const val = input.value.trim();
+  if (!val) return;
+  input.value = '';
+  addMsg('user', val);
+
+  setTimeout(() => {
+    if (chatStep === 1) {
+      chatData.nombre = val;
+      chatStep = 2;
+      addMsg('bot', '¡Qué gusto, <b>' + val + '</b>! 😊 ¿Qué deseas hoy?', [
+        { label: '🫓 Cachapas y almuerzos', action: () => { addMsg('user','Cachapas'); chatStep=3; addMsg('bot','¡Perfecto! Puedes ver nuestro menú completo arriba 👆 ¿Quieres que un asesor te ayude?', [
+          { label: '✅ Sí, contáctame', action: () => { window.open('https://wa.me/584264014765?text=Hola!%20Me%20llamo%20'+encodeURIComponent(chatData.nombre)+'%20y%20quiero%20pedir%20cachapas%20😊','_blank'); addMsg('bot','Te estamos conectando por WhatsApp 🚀'); }},
+          { label: '👀 Solo estoy viendo', action: () => addMsg('bot','¡Claro! Estoy aquí si necesitas algo 😊') }
+        ]); }},
+        { label: '🍕 Pizzas artesanales', action: () => { addMsg('user','Pizzas'); chatStep=3; addMsg('bot','¡Excelente elección! Tenemos 9 variedades 🍕 Puedes ver los precios y ordenar tocando los botones de precio arriba. ¿O prefieres que te contactemos?', [
+          { label: '📞 Que me contacten', action: () => { window.open('https://wa.me/584264014765?text=Hola!%20Me%20llamo%20'+encodeURIComponent(chatData.nombre)+'%20y%20quiero%20pedir%20una%20pizza%20🍕','_blank'); addMsg('bot','¡Conectando con nuestro equipo! 🚀'); }},
+          { label: '👀 Ver el menú', action: () => { document.querySelector('.pizza-grid').scrollIntoView({behavior:'smooth'}); addMsg('bot','¡Aquí tienes nuestro menú de pizzas! 🍕'); }}
+        ]); }},
+        { label: '📦 Delivery y horarios', action: () => { addMsg('user','Delivery'); addMsg('bot','🛵 <b>Delivery GRATIS</b> en toda el área.<br>⏰ Horario: Lunes a Domingo<br>📍 Pedidos al WhatsApp +58 426 401 4765'); }}
+      ]);
+    } else {
+      addMsg('bot', '¿Hay algo más en lo que pueda ayudarte? 😊');
+    }
+  }, 500);
+}
+
+document.getElementById('chat-input').addEventListener('keypress', e => { if (e.key === 'Enter') sendMsg(); });
+</script>
+</body>
+</html>
